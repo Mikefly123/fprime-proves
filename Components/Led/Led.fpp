@@ -17,6 +17,11 @@ module Components {
             severity activity high \
             format "Set blinking state to {}."
 
+        @ Reports the state we set to blinking.
+        event SetBlinkingColor(state: Fw.On) \
+            severity activity high \
+            format "Set blinking state to {}."
+
         event BlinkIntervalSet(interval: U32) \
             severity activity high \
             format "LED blink interval set to {}"

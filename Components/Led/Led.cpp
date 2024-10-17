@@ -177,6 +177,47 @@ void Led ::
     this->cmdResponse_out(opCode, cmdSeq, Fw::CmdResponse::OK);
   }
 
+void Led ::
+    SET_LED_RAINBOW_cmdHandler(
+        FwOpcodeType opCode,
+        U32 cmdSeq,
+        Components::Colors color
+    )
+  {
+    this->blinking = false; // Ensure blinking is off when setting rainbow mode
+
+    // Define a lambda to smoothly transition between colors
+    auto smoothTransition = [this](uint8_t startR, uint8_t startG, uint8_t startB, uint8_t endR, uint8_t endG, uint8_t endB, int steps) {
+        for (int i = 0; i <= steps; ++i) {
+            uint8_t r = startR + (endR - startR) * i / steps;
+            uint8_t g = startG + (endG - startG) * i / steps;
+            uint8_t b = startB + (endB - startB) * i / steps;
+            pixels.setPixelColor(0, pixels.Color(r, g, b));
+            pixels.show();
+            // Adjust the delay as needed for smooth transition
+            for (volatile int j = 0; j < 10000; ++j);
+        }
+    };
+
+    // Define the colors for the rainbow
+    static const uint8_t colors[][3] = {
+        {255, 0, 0},    // RED
+        {255, 165, 0},  // ORANGE
+        {255, 255, 0},  // YELLOW
+        {0, 255, 0},    // GREEN
+        {0, 0, 255},    // BLUE
+        {75, 0, 130},   // INDIGO
+        {238, 130, 238} // VIOLET
+    };
+
+    // Smoothly transition between each color
+    for (size_t i = 0; i < sizeof(colors) / sizeof(colors[0]); ++i) {
+        size_t nextIndex = (i + 1) % (sizeof(colors) / sizeof(colors[0]));
+        smoothTransition(colors[i][0], colors[i][1], colors[i][2], colors[nextIndex][0], colors[nextIndex][1], colors[nextIndex][2], 100);
+    }
+    this->cmdResponse_out(opCode, cmdSeq, Fw::CmdResponse::OK);
+  }
+
 
   void Led ::parameterUpdated(FwPrmIdType id) {
     // Read back the parameter value

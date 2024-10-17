@@ -10,6 +10,9 @@ module Components {
         @ Command to change the LED Color
         async command SET_LED_COLOR(color: Colors)
 
+        @ Command to change the LED Color
+        async command SET_LED_RAINBOW(color: Colors)
+
         @ Indicates we received an invalid argument.
         event InvalidBlinkArgument(badArgument: Fw.On) \
             severity warning low \

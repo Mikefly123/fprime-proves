@@ -63,6 +63,15 @@ class Led : public LedComponentBase {
     void parameterUpdated(FwPrmIdType id /*!< The parameter ID*/
     );
 
+    //! Handler implementation for command SET_LED_RAINBOW
+    //!
+    //! Command to change the LED Color
+    void SET_LED_RAINBOW_cmdHandler(
+        FwOpcodeType opCode, //!< The opcode
+        U32 cmdSeq, //!< The command sequence number
+        Components::Colors color
+    ) override;
+
     PRIVATE:
       Fw::On state; //! Keeps track if LED is on or off
       U64 transitions; //! The number of on/off transitions that have occurred from FSW boot up

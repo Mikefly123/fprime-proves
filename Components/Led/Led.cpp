@@ -135,6 +135,49 @@ void Led ::
     this->cmdResponse_out(opCode,cmdSeq,cmdResp);
   }
 
+void Led ::
+    SET_LED_COLOR_cmdHandler(
+        FwOpcodeType opCode,
+        U32 cmdSeq,
+        Components::Colors color
+    )
+  {
+    switch (color.e) {
+        case Components::Colors::RED:
+            pixels.setPixelColor(0, pixels.Color(255, 0, 0));
+            break;
+        case Components::Colors::ORANGE:
+            pixels.setPixelColor(0, pixels.Color(255, 165, 0));
+            break;
+        case Components::Colors::YELLOW:
+            pixels.setPixelColor(0, pixels.Color(255, 255, 0));
+            break;
+        case Components::Colors::GREEN:
+            pixels.setPixelColor(0, pixels.Color(0, 255, 0));
+            break;
+        case Components::Colors::BLUE:
+            pixels.setPixelColor(0, pixels.Color(0, 0, 255));
+            break;
+        case Components::Colors::INDIGO:
+            pixels.setPixelColor(0, pixels.Color(75, 0, 130));
+            break;
+        case Components::Colors::VIOLET:
+            pixels.setPixelColor(0, pixels.Color(238, 130, 238));
+            break;
+        case Components::Colors::OFF:
+            pixels.setPixelColor(0, pixels.Color(0, 0, 0));
+            break;
+        default:
+            // Handle invalid color
+            this->log_WARNING_LO_InvalidColorArgument(color);
+            this->cmdResponse_out(opCode, cmdSeq, Fw::CmdResponse::VALIDATION_ERROR);
+            return;
+    }
+    pixels.show();
+    this->cmdResponse_out(opCode, cmdSeq, Fw::CmdResponse::OK);
+  }
+
+
   void Led ::parameterUpdated(FwPrmIdType id) {
     // Read back the parameter value
     Fw::ParamValid isValid;

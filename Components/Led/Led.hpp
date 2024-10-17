@@ -52,6 +52,12 @@ class Led : public LedComponentBase {
         */
     );
 
+    void SET_LED_COLOR_cmdHandler(
+          FwOpcodeType opCode, //!< The opcode
+          U32 cmdSeq, //!< The command sequence number
+          Components::Colors color
+      ) override;
+
     //! Emit parameter updated EVR
     //!
     void parameterUpdated(FwPrmIdType id /*!< The parameter ID*/

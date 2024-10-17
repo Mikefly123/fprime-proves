@@ -7,10 +7,18 @@ module Components {
             on_off: Fw.On @< Indicates whether the blinking should be on or off
         )
 
+        @ Command to change the LED Color
+        async command SET_LED_COLOR(color: Colors)
+
         @ Indicates we received an invalid argument.
         event InvalidBlinkArgument(badArgument: Fw.On) \
             severity warning low \
             format "Invalid Blinking Argument: {}"
+
+        @ Indicates we received an invalid argument.
+        event InvalidColorArgument(badArgument: Colors) \
+            severity warning low \
+            format "Invalid Color Argument: {}"
 
         @ Reports the state we set to blinking.
         event SetBlinkingState(state: Fw.On) \

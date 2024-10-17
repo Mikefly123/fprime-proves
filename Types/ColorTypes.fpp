@@ -9,5 +9,6 @@ module Components {
         BLUE @< Blue
         INDIGO @< Indigo
         VIOLET @< Violet
+        OFF @< Off
   }
 }
